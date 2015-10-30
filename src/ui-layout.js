@@ -739,14 +739,15 @@ angular.module('ui.layout', [])
           e.stopPropagation();
 
           htmlElement.on('mousemove touchmove', function(event) {
-            $('<div class="ui-splitter-mask"></div>').insertAfter(element);
+            var maskEl = angular.element('<div class="ui-splitter-mask"></div>');
+            element.parent()[0].insertBefore(maskEl[0], element[0]);
             scope.$apply(angular.bind(ctrl, ctrl.mouseMoveHandler, event));
           });
           return false;
         });
 
         htmlElement.on('mouseup touchend', function(event) {
-          $('.ui-splitter-mask').remove();
+          angular.element(document.getElementsByClassName('ui-splitter-mask')).remove();
           scope.$apply(angular.bind(ctrl, ctrl.mouseUpHandler, event));
           htmlElement.off('mousemove touchmove');
         });
